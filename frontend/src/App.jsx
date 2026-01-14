@@ -105,7 +105,7 @@ export default function App() {
     <div className="min-h-screen bg-[#FDECEF] px-10 py-14">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-semibold mb-12">
-          🌸 Exam Study Planner
+          Exam Study Planner
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
