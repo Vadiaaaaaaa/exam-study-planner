@@ -69,7 +69,7 @@ export default function Syllabus({ topics, setTopics, exams }) {
             max="10"
             value={difficulty}
             onChange={(e) => setDifficulty(Number(e.target.value))}
-            className="w-full accent-pink-400"
+            className="w-full accent-#973F96"
           />
 
           <p className="text-xs text-gray-500 mt-1">
