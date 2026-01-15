@@ -164,7 +164,7 @@ export default function App() {
                   rounded-full border-2 border-[#963e96]
                   bg-[#FDECEC] text-[#963e96]
                   font-semibold px-6 h-[50px]
-                  shadow-[4px_4px_0_0_#963e96]
+                  shadow-[0_20px_50px_rgba(167,139,250,0.25)]
                 "
               >
                 Generate
