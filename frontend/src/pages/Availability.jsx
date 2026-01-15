@@ -10,14 +10,23 @@ export default function Availability({ hoursPerDay, setHoursPerDay }) {
         How many hours can you study per day?
       </p>
 
+      <label className="block text-sm font-medium mb-1">
+  Hours you can study per day
+      </label>
+
       <input
         type="range"
         min="1"
-        max="8"
+        max="16"
         value={hoursPerDay}
         onChange={(e) => setHoursPerDay(Number(e.target.value))}
-        className="w-full"
+        className="w-full accent-#973F96"
       />
+
+      <p className="text-xs text-gray-500 mt-1">
+        {hoursPerDay} hours/day
+      </p>
+
 
       <div className="mt-4 text-lg font-medium">
         {hoursPerDay} hours / day

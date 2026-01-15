@@ -11,6 +11,14 @@ export default function Calendar({ calendar, exams }) {
   const startWeekday = firstDay.getDay(); // 0 = Sunday
   const totalDays = lastDay.getDate();
 
+  // ✅ LOCAL DATE KEY (CRITICAL)
+  const formatLocalDateKey = (date) => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  };
+
   const days = [];
 
   // Empty cells before month starts
@@ -47,14 +55,16 @@ export default function Calendar({ calendar, exams }) {
             return <div key={i} className="min-h-[110px]" />;
           }
 
-          const key = date.toISOString().split("T")[0];
-          const sessions = calendar[key] || [];
+          // ✅ FIXED KEY (NO ISO, NO UTC)
+          const key = formatLocalDateKey(date);
 
+          const sessions = calendar[key] || [];
           const examForDay = exams.find((e) => e.date === key);
+
           const isExamDay = Boolean(examForDay);
           const isPastDay = date < today;
           const isToday =
-            date.toDateString() === today.toDateString();
+            date.getTime() === today.getTime();
 
           return (
             <div
@@ -89,7 +99,13 @@ export default function Calendar({ calendar, exams }) {
                   {sessions.map((s, j) => (
                     <div
                       key={j}
-                      className="bg-pink-100 rounded-md px-2 py-1 text-[11px]"
+                      className={`rounded-md px-2 py-1 text-[11px]
+                        ${
+                          s.isRevision
+                            ? "bg-purple-100 text-purple-700"
+                            : "bg-pink-100"
+                        }
+                      `}
                     >
                       {s.subject}: {s.topic} ({s.duration}h)
                     </div>

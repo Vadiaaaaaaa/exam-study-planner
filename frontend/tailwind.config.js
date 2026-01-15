@@ -6,15 +6,16 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        bg: "#F8FAFC",
-        card: "#FFFFFF",
-        primary: "#C7D2FE",   // lavender
-        secondary: "#BAE6FD", // baby blue
-        accent: "#FBCFE8",    // soft pink
-        text: "#1F2937"
-      }
-    }
+        colors: {
+            bg: "#FDF4F8",          // soft blush background
+            cardPink: "#FCE7F3",    // pastel pink
+            cardLavender: "#EDE9FE",// pastel lavender
+            primary: "#C7D2FE",
+            secondary: "#FBCFE8",
+            text: "#1F2937",
+  }
+}
+
   },
   plugins: [],
 };

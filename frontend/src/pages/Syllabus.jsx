@@ -3,27 +3,28 @@ import { useState } from "react";
 export default function Syllabus({ topics, setTopics, exams }) {
   const [name, setName] = useState("");
   const [subject, setSubject] = useState("");
-  const [difficulty, setDifficulty] = useState(1);
+  const [difficulty, setDifficulty] = useState(5);
 
   const addTopic = () => {
     if (!name || !subject) return;
 
-    setTopics([
-      ...topics,
+    setTopics(prev => [
+      ...prev,
       {
+        id: Date.now(), // stable id
         name,
         subject,
-        difficulty: Number(difficulty),
+        difficulty,
       },
     ]);
 
     setName("");
     setSubject("");
-    setDifficulty(1);
+    setDifficulty(5);
   };
 
-  const deleteTopic = (indexToDelete) => {
-    setTopics(topics.filter((_, index) => index !== indexToDelete));
+  const deleteTopic = (id) => {
+    setTopics(prev => prev.filter(t => t.id !== id));
   };
 
   return (
@@ -47,25 +48,33 @@ export default function Syllabus({ topics, setTopics, exams }) {
           className="w-full border rounded-xl px-4 py-2"
         >
           <option value="">Select subject</option>
-          {exams.map((exam, i) => (
-            <option key={i} value={exam.subject}>
+          {exams.map((exam) => (
+            <option
+              key={exam.subject}
+              value={exam.subject}
+            >
               {exam.subject}
             </option>
           ))}
         </select>
 
         <div>
-          <label className="text-sm text-gray-600">
-            Hours Required: {difficulty}
+          <label className="block text-sm font-medium mb-1">
+            Study effort (1–10)
           </label>
+
           <input
             type="range"
             min="1"
-            max="5"
+            max="10"
             value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
-            className="w-full"
+            onChange={(e) => setDifficulty(Number(e.target.value))}
+            className="w-full accent-pink-400"
           />
+
+          <p className="text-xs text-gray-500 mt-1">
+            {difficulty} / 10
+          </p>
         </div>
 
         <button
@@ -94,9 +103,9 @@ export default function Syllabus({ topics, setTopics, exams }) {
       {/* Topic list */}
       {topics.length > 0 && (
         <div className="mt-8 space-y-3">
-          {topics.map((topic, index) => (
+          {topics.map((topic) => (
             <div
-              key={index}
+              key={topic.id}
               className="
                 flex items-center justify-between
                 bg-pink-50
@@ -109,12 +118,12 @@ export default function Syllabus({ topics, setTopics, exams }) {
                   {topic.name}
                 </p>
                 <p className="text-sm text-gray-600">
-                  {topic.subject} • Difficulty {topic.difficulty}
+                  {topic.subject} • Effort {topic.difficulty}/10
                 </p>
               </div>
 
               <button
-                onClick={() => deleteTopic(index)}
+                onClick={() => deleteTopic(topic.id)}
                 className="
                   text-rose-500
                   hover:text-rose-700
