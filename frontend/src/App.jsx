@@ -153,7 +153,7 @@ export default function App() {
           </div>
 
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-white rounded-3xl p-6 shadow-lg flex justify-between">
+            <div className="bg-white rounded-3xl p-6 shadow-[0_20px_50px_rgba(167,139,250,0.25)] flex justify-between">
               <h2 className="text-2xl font-medium">
                 Generate calendar
               </h2>
@@ -164,7 +164,7 @@ export default function App() {
                   rounded-full border-2 border-[#963e96]
                   bg-[#FDECEC] text-[#963e96]
                   font-semibold px-6 h-[50px]
-                  shadow-[0_20px_50px_rgba(167,139,250,0.25)]
+                  shadow-[4px_4px_0_0_#963e96]
                 "
               >
                 Generate
