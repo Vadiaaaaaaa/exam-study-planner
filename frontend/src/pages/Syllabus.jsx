@@ -4,14 +4,25 @@ export default function Syllabus({ topics, setTopics, exams }) {
   const [name, setName] = useState("");
   const [subject, setSubject] = useState("");
   const [difficulty, setDifficulty] = useState(5);
+  const [error, setError] = useState("");
 
   const addTopic = () => {
-    if (!name || !subject) return;
+    if (!subject) {
+      setError("Please select a subject first");
+      return;
+    }
+
+    if (!name) {
+      setError("Please enter a topic name");
+      return;
+    }
+
+    setError("");
 
     setTopics(prev => [
       ...prev,
       {
-        id: Date.now(), // stable id
+        id: Date.now(), // ✅ stable ID
         name,
         subject,
         difficulty,
@@ -19,10 +30,11 @@ export default function Syllabus({ topics, setTopics, exams }) {
     ]);
 
     setName("");
-    setSubject("");
+    // ✅ do NOT reset subject
     setDifficulty(5);
   };
 
+  // ✅ THIS WAS MISSING — REQUIRED FOR DELETE BUTTON
   const deleteTopic = (id) => {
     setTopics(prev => prev.filter(t => t.id !== id));
   };
@@ -49,10 +61,7 @@ export default function Syllabus({ topics, setTopics, exams }) {
         >
           <option value="">Select subject</option>
           {exams.map((exam) => (
-            <option
-              key={exam.subject}
-              value={exam.subject}
-            >
+            <option key={exam.subject} value={exam.subject}>
               {exam.subject}
             </option>
           ))}
@@ -69,13 +78,19 @@ export default function Syllabus({ topics, setTopics, exams }) {
             max="10"
             value={difficulty}
             onChange={(e) => setDifficulty(Number(e.target.value))}
-            className="w-full accent-#973F96"
+            className="w-full accent-[#973F96]"
           />
 
           <p className="text-xs text-gray-500 mt-1">
             {difficulty} / 10
           </p>
         </div>
+
+        {error && (
+          <p className="text-sm text-red-500 font-medium">
+            {error}
+          </p>
+        )}
 
         <button
           onClick={addTopic}

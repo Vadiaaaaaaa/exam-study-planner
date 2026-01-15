@@ -1,4 +1,4 @@
-export default function Calendar({ calendar, exams }) {
+export default function Calendar({ calendar, exams, assignments }) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -11,7 +11,7 @@ export default function Calendar({ calendar, exams }) {
   const startWeekday = firstDay.getDay(); // 0 = Sunday
   const totalDays = lastDay.getDate();
 
-  // ✅ LOCAL DATE KEY (CRITICAL)
+  // ✅ LOCAL DATE KEY (NO UTC)
   const formatLocalDateKey = (date) => {
     const y = date.getFullYear();
     const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -55,16 +55,17 @@ export default function Calendar({ calendar, exams }) {
             return <div key={i} className="min-h-[110px]" />;
           }
 
-          // ✅ FIXED KEY (NO ISO, NO UTC)
           const key = formatLocalDateKey(date);
 
           const sessions = calendar[key] || [];
           const examForDay = exams.find((e) => e.date === key);
+          const assignmentsForDay = assignments.filter(
+            (a) => a.date === key
+          );
 
           const isExamDay = Boolean(examForDay);
           const isPastDay = date < today;
-          const isToday =
-            date.getTime() === today.getTime();
+          const isToday = date.getTime() === today.getTime();
 
           return (
             <div
@@ -81,6 +82,7 @@ export default function Calendar({ calendar, exams }) {
                 ${isToday ? "ring-2 ring-pink-300" : ""}
               `}
             >
+              {/* DATE + EXAM */}
               <div
                 className={`text-xs font-semibold mb-1 ${
                   isExamDay ? "text-red-600" : ""
@@ -94,8 +96,20 @@ export default function Calendar({ calendar, exams }) {
                 )}
               </div>
 
+              {/* ASSIGNMENTS */}
+              {!isPastDay &&
+                assignmentsForDay.map((a) => (
+                  <div
+                    key={a.id}
+                    className="bg-purple-100 text-purple-700 rounded-md px-2 py-1 text-[11px]"
+                  >
+                    {a.name} assignment due
+                  </div>
+                ))}
+
+              {/* STUDY SESSIONS */}
               {!isPastDay && (
-                <div className="space-y-1 overflow-hidden">
+                <div className="space-y-1 overflow-hidden mt-1">
                   {sessions.map((s, j) => (
                     <div
                       key={j}
